@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="item-details-page">
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+        <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Be <em>Our</em> Member</h2>
+        </div>
+        </div>
+        <div class="col-lg-12">
+            username = models.CharField(max_length=225 , unique=True)
+            email = models.EmailField(('email address'), unique=True , )
+            image = models.ImageField(upload_to='profile/' , blank = True)
+            first_name = models.CharField(max_length=225 , blank=True)
+            last_name = models.CharField(max_length=225 , blank=True)
+            birthday = models.DateField(blank=True , null=True)
+            <form id="contact" action="{% url 'accounts:register' %}" method="post" enctype="multipart/form-data" >
+              {% csrf_token %}
+                <div class="row">
+                  <div class="col-lg-4">
+                    <fieldset>
+                      <label for="username">Your username</label>
+                      <input type="text" name="username" id="title" placeholder="Ex. Lyon King" autocomplete="on" required>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                      <label for="description">Leave your email here</label>
+                      <input type="email" name="email" id="description" placeholder="Type your email" autocomplete="on" required>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                      <label for="username">Your First Name</label>
+                      <input type="text" name="first_name" placeholder="Ex. @alansmithee" autocomplete="on" required>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-6">
+                    <fieldset>
+                      <label for="last_name">Your Last Name</label>
+                      <input type="text" name="last_name" id="price" placeholder="Ex. Lyon King" autocomplete="on" required>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-6">
+                    <fieldset>
+                      <label for="birthday">BirthDay</label>
+                      <input type="date" name="birthday" id="royalities" required>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-6">
+                    <fieldset>
+                      <label for="birthday">Password</label>
+                      <input type="text" name="password" id="royalities" required>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-6">
+                    <fieldset>
+                      <label for="birthday">ConfirmPassword</label>
+                      <input type="text" name="confrim_password" id="royalities" required>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                      <label for="file">Your Profile photo</label>
+                      <input type="file" id="file" name="image" multiple />
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-8">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="orange-button">Submit Your Applying</button>
+                    </fieldset>
+                  </div>
+                </div>
+              </form>
+
+
+              <div class="messages">
+                {% if messages %}
+               {% include '../includes/messages.html' %}
+               {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+</div>
+{% endblock content %}

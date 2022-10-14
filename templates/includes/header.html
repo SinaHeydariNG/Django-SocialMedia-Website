@@ -1,0 +1,59 @@
+{% load static %}
+
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="/" class="logo">
+                        <img src="{% static 'assets/images/logo.png' %}" alt="">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+
+                      {% for nav in navbars %}
+                        <li><a href="{{nav.url}}" class="{% if request.path == nav.url %}{% endif %}">{{nav.title}}</a></li>
+                      {% endfor %}
+                      {% if user.is_authenticated %}
+                      <li>
+                        <a href="{% url 'accounts:profile' %}">Profile</a>
+                      </li>
+                      <li>
+                        <a href="{% url 'accounts:logout' %}">Logout</a>
+                      </li>
+                      {% else %}
+                      <li>
+                        <a href="{% url 'accounts:login' %}">Login</a>
+                      </li>
+                      <li>
+                        <a href="{% url 'accounts:register' %}">Register</a>
+                      </li>
+                      {% endif %}
+                    </ul>   
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+

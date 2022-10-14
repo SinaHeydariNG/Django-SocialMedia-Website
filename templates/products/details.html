@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+<div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Liberty NFT Market</h6>
+          <h2>View Item Details</h2>
+          <span>  <a href="{% url 'main:home' %}">Home </a>  > <a href="{% url 'product:detail' single.pk %}">Item Details</a></span>
+          <div class="buttons">
+            <div class="main-button">
+              <a href="{% url 'product:list' %}">Explore Our Items</a>
+            </div>
+            <div class="border-button">
+              <a href="{% url 'product:create' %}">Create Your NFT</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-details-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>View Details <em>{{single.title}}</em> Here.</h2>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="left-image">
+            <img src="{{single.thumbnail.url}}" alt="" style="border-radius: 20px;">
+          </div>
+        </div>
+        <div class="col-lg-5 align-self-center">
+          <h4>Dolores Haze Westworld Eye</h4>
+          <span class="author">
+            <img src="{{single.owner.image.url}}" width="50px" alt="" style="border-radius: 50%; width: 50px!important;">
+            <h6>{{single.owner.first_name}}<br><a href="#">@{{single.owner.username}}</a></h6>
+          </span>
+          <p>{{single.information | safe}}</p>
+          <div class="row">
+            <div class="col-3">
+              <span class="bid">
+                Current Bid<br><strong>{{single.price}} $ </strong><br>
+              </span>
+            </div>
+            <div class="col-4" style="text-align: center;">
+              <span class="owner">
+                Owner <br><em><strong> @ {{single.owner.username}} </strong> </em>
+              </span>
+            </div>
+            <div class="col-5">
+              <span class="ends">
+               Published<br><strong>{{single.published}}</strong><br><em></em>
+              </span>
+
+            </div>
+
+            <div class="col-12 likes-view ">
+              <span class="ends">
+                {{likes}}
+              <a href="{% url 'product:like' single.pk %}">
+               Like
+              </a>
+              </span>
+            </div>
+
+          </div>
+
+          {% if single.owner.username == request.user.username %}
+       
+            <a href="{% url 'product:delete' single.pk %}">
+           <button class="">Delete</button></a>
+           <a href="{% url 'product:edit' single.pk %}">
+            <button type="" id="form-submit" class="main-button">Edit</button></a>
+          </form>
+          {% else %}
+          <a href="{% url 'cart:add' single.pk %}">
+            <button class="">Add to Cart</button></a>
+          {% endif %}
+        </div>
+        <div class="col-lg-12">
+          <div class="current-bid">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="mini-heading"><h4>Who has signed up ?</h4></div>
+              </div>
+              <div class="col-lg-6">
+                <fieldset>
+                  <form action="" method="GET">
+                  <select name="userfilter" class="form-select" aria-label="Default select example" id="chooseCategory">
+                      <option disabled selected type="checkbox" name="option1" value="old">Sort By: </option>
+                      <option style="color: black;" value="bd">Sort By: BirthDay</option>
+                      <option style="color: black;"  value="like">Sort By: Likes</option>
+                      <option style="color: black;"  value="post">Sort By: Posts</option>
+                  </select>
+                  <button type="submit" >Go!</button>
+                </form>
+              </fieldset>
+              </div>
+              {% for user in users %}
+              <div class="col-lg-4 col-md-6">
+                <div class="item">
+                  {% if user.image %}
+                  <div class="left-img">
+                    <img src="{{user.image.url}}" alt="">
+                  </div>
+                  {% endif %}
+                  <div class="right-content">
+                    <h4>{{user.first_name}}</h4>
+                    <a href="#">@{{user.username}}</a>
+            
+                    <div class="line-dec"></div>
+                    <h6>Bid: <em>0.06 ETH</em></h6>
+                    <span class="date">Birth : {{user.birthday}}</span>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container bootstrap snippets bootdey">
+
+<div class="row">
+  <h1 style="color: black; margin: 10px 0px; font-size: 15px;">Leave your comment</h1>
+<form action="{% url 'product:comments' %}" method="post" style="padding : 10px;">
+  {% csrf_token %}
+<input type="text" name="user" id="" hidden value="{{requset.user}}">
+<input type="text" name="product" id="" hidden value="{{single.pk}}">
+  <div class="input-group">
+    <div class="input-group-prepend">
+  
+    </div>
+    <textarea class="form-control" name="text" aria-label="With textarea"></textarea>
+  </div>
+  <div class="input-group">
+    <button class="btn btn-primary" style="margin-top: 5px;" type="submit">Comment it!!</button>
+  </div>
+</form>
+</div>
+
+    <div class="row">
+		<div class="col-md-12">
+		    <div class="blog-comment">
+				<h3 class="text-success">Comments</h3>
+                <hr/>
+				<ul class="comments">
+
+          {% for comment in comments %}
+				<li style="display: block;" class="clearfix">
+{% if comment.is_parent == True %}
+				  <img src="{{comment.user.image.url}}" class="avatar" alt="">
+				  <div class="post-comments">
+				      <p class="meta">{{comment.date}}<a href="#">{{comment.user.first_name}}</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
+				      <p style="color: black;">
+				         {{comment.text}}
+				      </p>
+				  </div>
+<ul>
+  {% for reply in comment.childern %}
+  <img src="{{reply.user.image.url}}" class="avatar" alt="">
+  <div class="post-comments">
+      <p class="meta">{{reply.date}}<a href="#">{{reply.user.first_name}}</a> says : <i class="pull-right"><a href="#"></a></i></p>
+      <p style="color: black;">
+         {{reply.text}}
+      </p>
+  </div>
+  {% endfor %}
+</ul>
+{% endif %}
+				</li>
+        {% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+  
+  <div class="create-nft">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Create Your NFT & Put It On The Market.</h2>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="main-button">
+            <a href="create.html">Create Your NFT Now</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item first-item">
+            <div class="number">
+              <h6>1</h6>
+            </div>
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-02.png' %}" alt="">
+            </div>
+            <h4>Set Up Your Wallet</h4>
+            <p>There are 5 different HTML pages included in this NFT <a href="https://templatemo.com/page/1" target="_blank" rel="nofollow">website template</a>. You can edit or modify any section on any page as you required.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item second-item">
+            <div class="number">
+              <h6>2</h6>
+            </div>
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-04.png' %}" alt="">
+            </div>
+            <h4>Add Your Digital NFT</h4>
+            <p>If you would like to support our TemplateMo website, please visit <a rel="nofollow" href="https://templatemo.com/contact" target="_parent">our contact page</a> to make a PayPal contribution. Thank you.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item">
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-06.png' %}" alt="">
+            </div>
+            <h4>Sell Your NFT &amp; Make Profit</h4>
+            <p>NFT means Non-Fungible Token that are used in digital cryptocurrency markets. There are many different kinds of NFTs in the industry.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

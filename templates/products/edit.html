@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="item-details-page">
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+        <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Add <em>New</em> Product</h2>
+        </div>
+        </div>
+        <div class="col-lg-12">
+            <form id="contact" action="" method="post" enctype="multipart/form-data" >
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-lg-4">
+                  <fieldset>
+                    <label for="username">Product Title</label>
+                    <input type="text" name="title" id="title" value="{{single.title}}" autocomplete="on" required>
+                  </fieldset>
+                </div>
+
+                <div class="col-lg-4">
+                  <fieldset>
+                    <label for="username">Owner</label>
+                    <select name="owner" required id="id_owner" style=" height: 46px;
+                    text-align: left;
+                    padding: 0px 15px;
+                    background-color: #282b2f;
+                    border: 1px solid #404245;
+                    margin-bottom: 30px;
+                    font-weight: 500;
+                    color: #afafaf;">
+                     <option value="{{request.user.id}}"  selected>{{request.user.first_name}}</option>
+                   </select>
+                  </fieldset>
+                
+                </div>
+                <div class="col-lg-4">
+                  <fieldset>
+                    <label for="description">Product subtitle</label>
+                    <input type="text" name="subtitle" id="description" value="{{single.subtitle}}" autocomplete="on">
+                  </fieldset>
+                </div>
+                <div class="col-lg-4">
+                  <fieldset>
+                    <label for="type">Type : </label>
+                    <select name="type" id="" style="width: 100%;
+                    height: 46px;
+                    text-align: left;
+                    padding: 0px 15px;
+                    background-color: #282b2f;
+                    border: 1px solid #404245;
+                    margin-bottom: 30px;
+                    font-weight: 500;
+                    color: #afafaf;">
+                        <option value="f"  {% if single.type == 'f' %} selected {% endif %}>Feature</option>
+                        <option value="i" {% if single.type == 'i' %} selected {% endif %} >Infographic</option>
+                        <option value="g" {% if single.type == 'g' %} selected {% endif %}>Gallery</option>
+                    </select>
+                  </fieldset>
+                </div>
+
+                <div class="col-lg-4">
+                  <fieldset>
+                    <label for="type">Collection : </label>
+                    <select name="collection" id="" style="width: 100%;
+                    height: 46px;
+                    text-align: left;
+                    padding: 0px 15px;
+                    background-color: #282b2f;
+                    border: 1px solid #404245;
+                    margin-bottom: 30px;
+                    font-weight: 500;
+                    color: #afafaf;">
+                        {% for collection in collections %}
+                        <option value="{{collection.id}}" {% if single.colledtion.id == collection.id  %} selected {% endif %}>{{collection.title}}</option>
+                        {% endfor %}
+                    </select>
+                  </fieldset>
+</div>
+                  
+                <div class="col-lg-4">
+                  <fieldset>
+                    <label for="type">Category : </label>
+                    <select name="category" id="" style="width: 100%;
+                    height: 46px;
+                    text-align: left;
+                    padding: 0px 15px;
+                    background-color: #282b2f;
+                    border: 1px solid #404245;
+                    margin-bottom: 30px;
+                    font-weight: 500;
+                    color: #afafaf;">
+                        {% for category in categories %}
+                        <option value="{{category.id}}" {% if single.category.id == category.id  %} selected {% endif %} >{{category.title}}</option>
+                        {% endfor %}
+                    </select>
+                  </fieldset>
+
+                </div>
+
+                <div class="col-lg-4">
+                  <fieldset>
+                    <label for="last_name">Your Product Image</label>
+                    <img src="{{single.thumbnail.url}}" alt="">
+                    <input type="file" name="thumbnail" value="{{single.thumbnail.url}}" id="">
+                  </fieldset>
+                </div>
+                <div class="col-lg-12">
+                  <fieldset>
+                    <label for="birthday">Your product gallery </label>
+                    {% if single.gallery_1 %}
+                    Image 1 :  
+                    {% endif %}
+                    {% if single.gallery_2 %}
+                    Image 2 :   
+                    {% endif %}
+                    {% if single.gallery_3 %}
+                    Image 3 :  
+                    {% endif %}
+                    {% if single.gallery_4 %}
+                    Image 4 :  
+                    {% endif %}
+                  </fieldset>
+                </div>
+        
+
+                <div class="col-lg-12">
+                  <fieldset>
+                    <label for="description">Product Information</label>
+                    <textarea name="information" id="" cols="30" rows="10">{{single.information}}</textarea>
+                  </fieldset>
+                </div>
+
+                <div class="col-lg-8">
+                  <fieldset>
+                    <button type="submit" id="form-submit" class="orange-button">Submit Your Product</button>
+                  </fieldset>
+                </div>
+              </div>
+              </form>
+
+              <div class="messages">
+                {% if messages %}
+               {% include '../includes/messages.html' %}
+               {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+</div>
+{% endblock content %}

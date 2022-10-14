@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-heading normal-space">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>{{information.title}}</h6>
+          <h2>{{title}}</h2>
+          <span>Home > <a href="{% url 'main:about' %}">{{title}}</a></span>
+          <div class="buttons">
+            <div class="main-button">
+              <a href="{% url 'product:list' %}">All products</a>
+            </div>
+            <div class="border-button">
+              <a href="{% url 'accounts:profile' %}">Create Your NFT</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-details-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2> <em>{{title}}</em></h2>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="left-image">
+            <img src="{{information.logo.url}}" width="300px" alt="" style="    border-radius: 20px;
+            width: 300px;
+            display: block;
+            margin: 10px auto;">
+          </div>
+        </div>
+        <div class="col-lg-12 align-self-center" style="text-align: center;">
+          <p>{{information.about | safe}}</p>
+          <div class="row">
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="current-bid">
+            <div class="row">
+
+
+              {% for user in users %}
+              <div class="col-lg-4 col-md-6">
+                <div class="item">
+                  <div class="left-img">
+                    <img src="{{user.image.url}}" alt="">
+                  </div>
+                  <div class="right-content">
+                    <h4>{{user.first_name}}</h4>
+                    <a href="#">@{{user.username}}</a>
+                    <div class="line-dec"></div>
+                    <h6>Bid: <em>0.06 ETH</em></h6>
+                    <span class="date">Birth : {{user.birthday}}</span>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="create-nft">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Create Your NFT & Put It On The Market.</h2>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="main-button">
+            <a href="create.html">Create Your NFT Now</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item first-item">
+            <div class="number">
+              <h6>1</h6>
+            </div>
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-02.png' %}" alt="">
+            </div>
+            <h4>Set Up Your Wallet</h4>
+            <p>There are 5 different HTML pages included in this NFT <a href="https://templatemo.com/page/1" target="_blank" rel="nofollow">website template</a>. You can edit or modify any section on any page as you required.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item second-item">
+            <div class="number">
+              <h6>2</h6>
+            </div>
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-04.png' %}" alt="">
+            </div>
+            <h4>Add Your Digital NFT</h4>
+            <p>If you would like to support our TemplateMo website, please visit <a rel="nofollow" href="https://templatemo.com/contact" target="_parent">our contact page</a> to make a PayPal contribution. Thank you.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item">
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-06.png' %}" alt="">
+            </div>
+            <h4>Sell Your NFT &amp; Make Profit</h4>
+            <p>NFT means Non-Fungible Token that are used in digital cryptocurrency markets. There are many different kinds of NFTs in the industry.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

@@ -1,0 +1,22 @@
+.new-product {background: #7453fc;
+    margin: 10px auto;
+    display: block;
+    width: 40%;
+    color: white;
+    text-align: center;
+    font-size: 17px;
+    font-family: 'FontAwesome';
+    padding: 9px;
+    letter-spacing: 4px;}
+.my-cart {background: none;
+    border: 2px solid #7453fc;
+    margin: 10px auto;
+    display: block;
+    width: 40%;
+    color: #7453fc;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: 'FontAwesome';
+    padding: 9px;
+    letter-spacing: 4px}

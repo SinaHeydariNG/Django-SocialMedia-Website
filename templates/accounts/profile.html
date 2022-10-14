@@ -1,0 +1,379 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+  <div class="author-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="author">
+            <img src="{{user.image.url}}" alt="" style="border-radius: 50%; max-width: 170px;">
+            <h4>{{user.first_name}} <br> <a href="#">@{{user.username}} </a></h4>
+
+            <span style="padding-top: 16%;
+            margin-left: 40px;
+            font-weight: bold;
+            font-size: 23px;
+            font-family: cursive;">
+              {% if user.level == "BRONZE" %}
+             <a href="" style="color: brown;"> BRONZE</a>
+              {% elif user.level == "SILZER" %}
+              <a href="" style="color: silver;"> SILVER</a>
+              {% elif user.level == "GOLD" %}
+              <a href="" style="color: gold;"> GOLD</a>
+              {% endif %}
+            </span>
+
+          </div>
+
+        </div>
+        <div class="col-lg-8">
+          <div class="right-info">
+            <div class="row">
+              <div class="col-4">
+                <div class="info-item">
+                  <i class="fa fa-hand"></i>
+                 
+                  <h6>{{user.product.count}} <em>Posts</em></h6>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="info-item">
+                  <i class="fa fa-heart"></i>
+                  <h6>{{likes}} <em>Likes</em></h6>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="info-item">
+                  <i class="fa fa-comment"></i>
+                  <h6>{{comments}} <em>Comments</em></h6>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <h5>{{user.following.count}} Following</h5>
+                <h5>{{user.followers.count}} Followers</h5>
+              </div>
+              <div class="col-7">
+                <div class="main-button">
+                  {% if request.user.username != user.username  %}
+                  <a href="{% url 'accounts:following' user.pk %}">
+                 {% if user in request.user.following.all %}   UnFollow {% else %}  Follow  {% endif %}  @{{user.username}}</a>
+                {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<div class="col-xs-12" style="margin: 30px 0px;">
+        <table class="table table-bordered user-cart-table">
+
+          <h1 class="header-title">   {{user.username}}  Followers : </h1>
+
+          {% if user.followers.count > 0 %}
+
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Picture</th>
+            </tr>
+          </thead>
+          <tbody>
+  
+            {% for follower in user.followers.all %}
+      
+            <tr>
+           
+              <td scope="row">{{forloop.counter}}</td>
+              <td>{{follower.first_name}}
+              </td>
+              <td><img src="{{follower.image.url}}" width="50px!important" alt=""></td>
+    
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+        {% else %}
+        <h6>{{user.username}} Does Not Have Any Followers </h6>
+        {% endif %}
+      
+      </div>
+
+
+
+      <div class="col-xs-12" style="margin: 30px 0px;">
+        <table class="table table-bordered user-cart-table">
+
+          <h1 class="header-title">   {{user.username}}  Following : </h1>
+
+          {% if user.following.count > 0 %}
+
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Picture</th>
+            </tr>
+          </thead>
+          <tbody>
+  
+            {% for follower in user.following.all %}
+      
+            <tr>
+           
+              <td scope="row">{{forloop.counter}}</td>
+              <td>{{follower.first_name}}
+              </td>
+              <td><img src="{{follower.image.url}}" width="50px!important" alt=""></td>
+    
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+        {% else %}
+        <h6>
+        {{user.username}} Does Not Following Anyone</h6>
+        {% endif %}
+
+    
+
+      </div>
+
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>{{user.first_name}}’s <em>Items</em>.</h2>
+
+          </div>
+    
+        </div>
+        {% for product in products %}
+        <div class="col-lg-6 col-md-6">
+          <div class="item">
+            <div class="row">
+              <div class="col-lg-12">
+                <span class="author">
+                  <img src="{{user.image.url}}" alt="" style="max-width: 50px; border-radius: 50%;">
+                </span>
+                <img src="{{product.thumbnail.url}}" alt="" style="border-radius: 20px;">
+                <h4>{{user.first_name}}</h4>
+              </div>
+              <div class="col-lg-12">
+                <div class="line-dec"></div>
+                <div class="row">
+                  <div class="col-6">
+                    <span>Type : <br> <strong>
+                         
+                      {% if product.type == "f" %}
+                      <a href="">
+                      Feature</a>
+                      {% elif product.type == "i" %}
+                      <a href="">
+                      Infographic
+                      </a>
+                      {% elif product.type == "g" %}
+                      <a href="">
+                      Gallery
+                      </a>
+                      {% endif %}
+
+                    </strong></span>
+                  </div>
+                  <div class="col-6">
+                    <span>Collection : <br> <strong>{{product.collection.title}}</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="main-button">
+                  <a href="{% url 'product:detail' product.pk %}">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
+        {% if request.user.username == user.username %}
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <a href="{% url 'product:create' %}"><span class="new-product">
+            
+              Create a new product
+              
+            </span></a>
+          </div>
+    
+        </div>
+
+
+        <table class="table table-bordered user-cart-table">
+          <h1 class="header-title">My Cart : </h1>
+
+          {% if cart != None %}
+
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Product</th>
+              <th scope="col">Image</th>
+              <th scope="col">Qs</th>
+              <th scope="col">Total $</th>
+              <th scope="col">+ & -</th>
+              
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in ordering_list %}
+            <tr>
+           
+              <td scope="row">{{forloop.counter}}</td>
+              <td>{{item.product.title}}</td>
+              <td><img src="{{item.product.thumbnail.url}}" alt=""></td>
+              <td>{{item.quantity}}</td>
+              <td>
+                {{item.product_price}}
+              </td>
+              <td>
+  
+                <a href="{% url 'cart:add' item.product.pk %}" class="green">+</a>
+                <a href="{% url 'cart:reduce' item.product.pk %}" class="red">-</a>
+
+              </td>
+              <td>
+                <a href="{% url 'cart:delete' item.product.pk %}">
+                Delete
+              </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="checkoutbox">
+          total quantity = <strong>{{cart.total_quantity}}</strong>
+          total price = <strong>{{cart.total_price}}</strong>
+          <a href="{% url 'cart:checkout' cart.pk %}">
+          <button class="green">Check Out</button></a>
+          <button class="red">Delete My Cart</button>
+        </div>
+
+        {% else %}
+        <span class="span-message error" style="color: white;">Your Cart Is Empty</span>
+        {% endif %}
+
+
+
+        <table class="table table-bordered user-cart-table">
+          <h1 class="header-title">Your Orderes : </h1>
+
+          {% if user_orders != None %}
+
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Product</th>
+              <th scope="col">Qs</th>
+              <th scope="col">Total $</th>
+              
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in user_orders %}
+            <tr>
+           
+              <td scope="row">{{forloop.counter}}</td>
+              <td>{% for i in item.products.all %}
+                {{i.product.title}} , 
+                {% endfor %}
+              </td>
+              <td>{{item.total_quantity}}</td>
+              <td>{{item.total_price}}</td>
+              <td>
+             {{item.status}}
+              </td>
+              
+    
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+{% endif %}
+
+
+
+
+{% endif %}
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="create-nft">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Create Your NFT & Put It On The Market.</h2>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="main-button">
+            <a href="{% url 'product:create' %}">Create Your NFT Now</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item first-item">
+            <div class="number">
+              <h6>1</h6>
+            </div>
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-02.png' %}" alt="">
+            </div>
+            <h4>Set Up Your Wallet</h4>
+            <p>Lorem ipsum dolor sit amet, consectetu dipiscingei elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item second-item">
+            <div class="number">
+              <h6>2</h6>
+            </div>
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-04.png' %}" alt="">
+            </div>
+            <h4>Add Your Digital NFT</h4>
+            <p>Lorem ipsum dolor sit amet, consectetu dipiscingei elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item">
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-06.png' %}" alt="">
+            </div>
+            <h4>Sell Your NFT &amp; Make Profit</h4>
+            <p>Lorem ipsum dolor sit amet, consectetu dipiscingei elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}  

@@ -1,0 +1,30 @@
+	Cripto Website : 
+
+			Prepration : 
+
+		 - Extend user model
+		 - Prepare Templates , Media , Static files url and where tehy must be located
+	         - Create Site Info model
+
+			Project Basics : 
+	 	- Create navbar model
+		- Create Category model
+		- Create Cripto model ( main product of project )
+		- Detail page for cripto
+
+
+			- Projects Advanced
+		- every page has to have a pagination
+		- comment , like option for every post
+		- An image gallery containing rendom photos from different users
+		
+			- Profile page for each user
+		- Every User has three diffrenet type :
+			- Logged-In User
+			- Promoted User
+			- Leader User
+		
+		- Cart : 
+			 Every user has a cart
+			Every user have the ability to add , edit or remove its cart
+		- Submit Order	 

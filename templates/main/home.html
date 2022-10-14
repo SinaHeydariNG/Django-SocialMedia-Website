@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="categories-collections">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="categories">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="section-heading">
+                  <div class="line-dec"></div>
+                  <h2>Browse Through Our <em>Categories</em> Here.</h2>
+                </div>
+              </div>
+         
+              {% for category in categories %}
+              <div class="col-lg-3 col-sm-6">
+                <div class="item">
+                  <div class="icon">
+                    <img src="{{category.image.url}}" alt="">
+                  </div>
+                  <h4>{{category.title}}</h4>
+                  <div class="icon-button">
+                    <a href="{% url 'product:category' category.pk %}"><i class="fa fa-angle-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+    
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="collections">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="section-heading">
+                  <div class="line-dec"></div>
+                  <h2>Explore Some Hot <em>Collections</em> In Market.</h2>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="owl-collection owl-carousel">
+                  {% for collection in collections %}
+                  <div class="item">
+                    <img src="{{collection.image.url}}" alt="">
+                    <div class="down-content">
+                      <h4>{{collection.title}}</h4>
+                      <span class="collection">Items In Collection:<br><strong style="color: #7453fc;" >{{collection.category.product.count}}</strong></span>
+                      <span class="category">Category:<br><strong>{{collection.category.title}}</strong></span>
+                      <div class="main-button">
+                        <a href="{% url 'product:collections' collection.pk %}">Explore Mutant</a>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="create-nft">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Create Your NFT & Put It On The Market.</h2>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="main-button">
+            <a href="{% url 'product:create' %}">Create Your NFT Now</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item first-item">
+            <div class="number">
+              <h6>1</h6>
+            </div>
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-02.png' %}" alt="">
+            </div>
+            <h4>Set Up Your Wallet</h4>
+            <p>NFT means Non-Fungible Token that are used in digital cryptocurrency markets. There are many different kinds of NFTs in the industry.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item second-item">
+            <div class="number">
+              <h6>2</h6>
+            </div>
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-04.png' %}" alt="">
+            </div>
+            <h4>Add Your Digital NFT</h4>
+            <p>There are 5 different HTML pages included in this NFT <a href="https://templatemo.com/page/1" target="_blank" rel="nofollow">website template</a>. You can edit or modify any section on any page as you required.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="item">
+            <div class="icon">
+              <img src="{% static 'assets/images/icon-06.png' %}" alt="">
+            </div>
+            <h4>Sell Your NFT &amp; Make Profit</h4>
+            <p>If you would like to support our TemplateMo website, please visit <a rel="nofollow" href="https://templatemo.com/contact" target="_parent">our contact page</a> to make a PayPal contribution. Thank you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="currently-market">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2><em>{{products_count}} Products</em> Currently In The Market.</h2>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="filters">
+          <form action="{% url 'product:search' %}" class="search-home">
+            <input type="text" name="title" id="" placeholder="Search Products">
+            <button type="submit">Go!</button>
+          </form>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="row grid">
+            {% for product in products %}
+            <div class="col-lg-6 currently-market-item all msc">
+              <div class="item">
+                <div class="left-image">
+                  <img src="{{product.thumbnail.url}}" alt="" style="border-radius: 20px; min-width: 195px;">
+<div class="price-box">
+                  <span>Price : </span>
+                    <br>
+                    <em><strong>{{product.price}} $ </strong></em>
+                  </div>
+                </div>
+                <div class="right-content">
+                  <h4>{{product.title}}</h4>
+                  <span class="author">
+                    <img src="{{product.owner.image.url}}" width="40" alt="" style="max-width: 50px; border-radius: 50%;">
+                    <h6>{{product.owner.first_name}}<br><a href="{% url 'accounts:user_profile' product.owner.id %}">@{{product.owner.username}}</a></h6>
+                  </span>
+                  <div class="line-dec"></div>
+                  <span class="bid">
+                    Type : <br><strong>
+
+
+                        {% if product.type == "f" %}
+                
+                        Feature
+                        {% elif product.type == "i" %}
+                     
+                        Infographic
+                      
+                        {% elif product.type == "g" %}
+                       
+                        Gallery
+                       
+                        {% endif %}
+
+                    </strong><br>
+               
+                
+                   <span> Published In </span><br> <em> <strong> {{product.published}} </strong> </em>
+                  
+                  <div class="text-button">
+                    <a href="{% url 'product:detail' product.pk %}">View Item Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+            
+		{% if products.has_other_pages %}
+    <div class="col-lg-12 all msc">
+		<nav aria-label="Page navigation example">
+		
+			<ul class="pagination justify-content-center">
+			{% if products.has_previous %}
+			  <li class="page-item">
+			<a class="page-link" href="?page={{products.previous_page_number}}" tabindex="-1">Previous</a>
+			  </li>
+			  {% endif %}
+	
+			  {% for i in products.paginator.page_range %}
+			  {% if products.number == i %}
+			  <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+			  {% else %}
+			  <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+			{% endif %}
+			  {% endfor %}
+	
+			  {% if products.has_next %}
+
+			  <li class="page-item">
+				<a class="page-link" href="?page={{products.next_page_number}}">Next</a>
+			  </li>
+			  {% endif %}
+
+			</ul>
+		  </nav>
+    </div>
+		  {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock content %}

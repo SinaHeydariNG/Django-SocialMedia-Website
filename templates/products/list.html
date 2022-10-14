@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+
+
+<div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Liberty NFT Market</h6>
+          <h2>Discover Some Top Items</h2>
+          <span><a href="{% url 'main:home' %}"> Home </a> > <a href="{% url 'product:list' %}">Products</a></span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="featured-explore">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="owl-features owl-carousel">
+  
+              {% for product in product_gallery %}
+              <div class="item">
+                <div class="thumb">
+                  <img src="{{product.thumbnail.url}}" alt="" style="border-radius: 20px;">
+                  <div class="hover-effect">
+                    <div class="content">
+                      <h4>{{product.title}}</h4>
+                      <span class="author">
+                        <img src="{{product.owner.image.url}}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
+                        <h6>{{product.owner.first_name}}<br><a href="{% url 'accounts:user_profile' product.owner.pk %}">@{{product.owner.username}}</a></h6>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+
+
+  <div class="discover-items">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Discover Some Of Our <em>Items</em>.</h2>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <form id="search-form" name="gs" method="get" role="search" action="{% url 'product:search'%}">
+            <div class="row">
+              <div class="col-lg-4">
+                <fieldset>
+                    <input type="text" name="title" class="searchText" placeholder="Type Something..." autocomplete="on">
+                </fieldset>
+              </div>
+              <div class="col-lg-3">
+                <fieldset>
+                    <select name="Category" class="form-select" aria-label="Default select example" id="chooseCategory" onchange="this.form.click()">
+                        <option name="category" value="0" selected >All</option>
+                        {% for category in categories %}
+                    
+                        <option type="checkbox" name="category" value="{{category.id}}">{{category.title}}</option>
+                        {% endfor %}
+                    </select>
+                </fieldset>
+              </div>
+              <div class="col-lg-3">
+                <fieldset>
+                    <select name="collection" class="form-select" aria-label="Default select example" id="chooseCategory" onchange="this.form.click()">
+                   
+                        <option selected>Available</option>
+                        {% for values in products_values %}
+                        <option name="collection" value="{{values}}">
+
+                         
+                        {% if values == "f" %}
+                     
+                        Feature
+                        {% elif values == "i" %}
+                  
+                        Infographic
+                     
+                        {% elif values == "g" %}
+                       
+                        Gallery
+                       
+                        {% endif %}
+
+
+                        </option>
+                        {% endfor %}
+                    </select>
+                </fieldset>
+              </div>
+              <div class="col-lg-2">                        
+                <fieldset>
+                    <button type="submit" class="main-button">Search</button>
+                </fieldset>
+              </div>
+            </div>
+          </form>
+        </div>
+{% for product in products %}
+        <div class="col-lg-4">
+          <div class="item">
+            <div class="row">
+              <div class="col-lg-12">
+                <span class="author">
+                  <img src="{{product.owner.image.url}}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
+                </span>
+                <img src="{{product.thumbnail.url}}" alt="" style="border-radius: 20px;">
+                <h4>{{product.title}}</h4>
+              </div>
+              <div class="col-lg-12">
+                <div class="line-dec"></div>
+                <div class="row">
+                  <div class="col-6">
+                    <span>Type :  <br> <strong>
+                      
+                      {% if product.type == "f" %}
+            
+                      Feature
+                      {% elif product.type == "i" %}
+             
+                      Infographic
+                     
+                      {% elif product.type == "g" %}
+                    
+                      Gallery
+                    
+                      {% endif %}
+                    </strong></span>
+                  </div>
+                  <div class="col-6">
+                    <span>Collection :  <br> <strong>{{product.collection.title}}</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="main-button">
+                  <a href="{% url 'product:detail' product.pk %}">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{% endfor %}
+
+{% if products.has_other_pages %}
+<div class="col-lg-12 all msc">
+<nav aria-label="Page navigation example">
+
+  <ul class="pagination justify-content-center">
+  {% if products.has_previous %}
+    <li class="page-item">
+  <a class="page-link" href="?page={{products.previous_page_number}}" tabindex="-1">Previous</a>
+    </li>
+    {% endif %}
+
+    {% for i in products.paginator.page_range %}
+    {% if products.number == i %}
+    <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+  {% endif %}
+    {% endfor %}
+
+    {% if products.has_next %}
+
+    <li class="page-item">
+    <a class="page-link" href="?page={{products.next_page_number}}">Next</a>
+    </li>
+    {% endif %}
+
+  </ul>
+  </nav>
+</div>
+  {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  <div class="top-seller">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Our Top Sellers This Week.</h2>
+          </div>
+        </div>
+        {% for user in users %}
+        <div class="col-lg-3 col-sm-6">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="item">
+                <img src="{{user.image.url}}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
+                <h6> <a href="{% url 'accounts:user_profile' user.pk %}" style="cursor: pointer;" >@{{user.username}} </a>  <br><a href="#">{{user.product.count}} post and {% if user.sell != None %} {{user.sell.count}} {% elif user.sell == None %} No {% endif %} sell</a></h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+  {% endblock content %}
